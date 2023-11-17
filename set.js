@@ -18,9 +18,6 @@ module.exports = class Set {
             console.log("Removido item: " + element);
         }
     }
-    pop() {
-        return this.items.pop();
-    }
     peek() {
         return this.items[this.items.length - 1];
     }
@@ -52,9 +49,6 @@ module.exports = class Set {
         this.items = [];
     }
     size() {
-        return Object.keys(this.items).length
-    }
-    sizeLegacy() {
         let count = 0;
         for (let key in this.items) {
             if (this.items.hasOwnProperty(key)) {
@@ -64,9 +58,6 @@ module.exports = class Set {
         return count;
     };
     values() {
-        return Object.values(this.items)
-    }
-    valuesLegacy() {
         let values = [];
         for (let key in this.items) {
             if (this.items.hasOwnProperty(key)) {
@@ -97,5 +88,28 @@ module.exports = class Set {
             }
         });
         return intersectionSet;
+    }
+    difference(otherSet) {
+        const differenceSet = new Set(); 
+        this.values().forEach(value => { 
+            if (!otherSet.has(value)) { 
+                differenceSet.add(value); 
+            }
+        });
+        return differenceSet;
+    }
+    isSubsetOf(otherSet) {
+        if (this.size() > otherSet.size()) { 
+            return false;
+        }
+        let isSubset = true; 
+        this.values().every(value => { 
+            if (!otherSet.has(value)) { 
+                isSubset = false; 
+                return false;
+            }
+            return true; 
+        });
+        return isSubset
     }
 };
